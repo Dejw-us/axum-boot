@@ -1,0 +1,11 @@
+[package]
+name = "axum-boot-example"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { workspace = true }
+tokio = { workspace = true }
+anyhow = { workspace = true }
+axum-boot-security = { path = "../axum-boot-security" }
+axum-boot-core = { path = "../axum-boot-core" }

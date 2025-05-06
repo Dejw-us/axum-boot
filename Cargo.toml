@@ -1,0 +1,17 @@
+[package]
+name = "axum-boot"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum-boot-core = { path = "axum-boot-core" }
+
+[workspace]
+members = ["axum-boot-core", "axum-boot-example", "axum-boot-security", "axum-boot-security-macros"]
+
+[workspace.dependencies]
+tokio = { version = "1.44.2", features = ["full"] }
+axum = "0.8.4"
+anyhow = "1.0.98"
+tower = "0.5.2"
+futures-util = "0.3"
