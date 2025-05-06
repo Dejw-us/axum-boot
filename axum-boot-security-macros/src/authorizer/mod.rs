@@ -7,6 +7,7 @@ pub fn impl_fn_authorizer(_attr: TokenStream, input: ItemFn) -> TokenStream {
   let fn_body = input.block;
 
   quote! {
+    #[allow(non_camel_case_types)]
     struct #fn_name;
 
     impl<S> axum::extract::FromRequestParts<S> for #fn_name {

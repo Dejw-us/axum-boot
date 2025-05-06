@@ -19,13 +19,13 @@ pub fn router() -> Router {
 }
 
 #[function_authorizer]
-async fn Check(parts: &Parts) -> bool {
+async fn check(parts: &Parts) -> bool {
   let roles = UserRoles::from_parts(parts);
   println!("Roles: {:?}", roles.0);
   roles.has_role("user")
 }
 
-#[authorize_with(Check)]
+#[authorize_with(check)]
 async fn get_example() -> AuthorizedResponse<impl IntoResponse> {
   Ok("hello")
 }
