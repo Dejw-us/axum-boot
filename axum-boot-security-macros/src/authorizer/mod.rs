@@ -52,7 +52,7 @@ pub fn impl_fn_authorizer(_attr: TokenStream, input: ItemFn) -> TokenStream {
 
   quote! {
     #[allow(non_camel_case_types)]
-    struct #fn_name;
+    pub struct #fn_name;
 
     impl<S> axum::extract::FromRequestParts<S> for #fn_name {
       type Rejection = axum::http::StatusCode;
@@ -62,7 +62,7 @@ pub fn impl_fn_authorizer(_attr: TokenStream, input: ItemFn) -> TokenStream {
         __STATE__: &S,
       ) -> impl Future<Output = Result<Self, Self::Rejection>> + Send {
         async move {
-          if #parts_name.extensions.get::<Arc<UserRoles>>().is_none() {
+          if #parts_name.extensions.get::<std::sync::Arc<UserRoles>>().is_none() {
             return Err(axum::http::StatusCode::FORBIDDEN)
           }
           let is_authorized = {

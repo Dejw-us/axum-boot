@@ -7,7 +7,12 @@ edition = "2024"
 axum-boot-core = { path = "axum-boot-core" }
 
 [workspace]
-members = ["axum-boot-core", "axum-boot-example", "axum-boot-security", "axum-boot-security-macros"]
+members = [
+  "axum-boot-core",
+  "axum-boot-example",
+  "axum-boot-security",
+  "axum-boot-security-macros",
+]
 
 [workspace.dependencies]
 tokio = { version = "1.44.2", features = ["full"] }

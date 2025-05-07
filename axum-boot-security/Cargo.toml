@@ -8,3 +8,4 @@ futures-util = { workspace = true }
 axum = { workspace = true }
 tower = { workspace = true }
 axum-boot-security-macros = { path = "../axum-boot-security-macros" }
+base64 = "0.22.1"

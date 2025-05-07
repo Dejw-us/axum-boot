@@ -27,6 +27,6 @@ pub fn authorize_with(attr: TokenStream, input: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_attribute]
-pub fn function_authorizer(attr: TokenStream, input: TokenStream) -> TokenStream {
+pub fn authorizer(attr: TokenStream, input: TokenStream) -> TokenStream {
   impl_fn_authorizer(attr, parse_macro_input!(input as ItemFn))
 }

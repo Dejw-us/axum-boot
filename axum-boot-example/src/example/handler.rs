@@ -9,26 +9,23 @@ use axum::{
   routing::get,
 };
 use axum_boot_security::{
-  macros::{authorize_with, function_authorizer, roles},
+  macros::{authenticated, authorize_with, roles},
+  request::extract::BasicAuth,
   response::AuthorizedResponse,
   user::role::UserRoles,
 };
 
 use crate::app::{self, AppState};
 
+use super::authorizers::check;
+
 pub fn router() -> Router {
   Router::new().route("/example", get(get_example))
 }
 
-#[function_authorizer]
-async fn check(parts: &Parts) -> bool {
-  let roles = UserRoles::from_parts(parts);
-  let app_state = parts.extensions.get::<AppState>().unwrap();
-  println!("state: {:?}", app_state);
-  roles.has_role("user")
-}
-
 #[authorize_with(check)]
-async fn get_example() -> AuthorizedResponse<impl IntoResponse> {
+#[roles("admin", "user")]
+async fn get_example(basic_auth: BasicAuth) -> AuthorizedResponse<impl IntoResponse> {
+  println!("auth: {:?}", basic_auth);
   Ok("hello")
 }
