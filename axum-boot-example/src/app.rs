@@ -7,10 +7,18 @@ use axum_boot_security::user::{UserService, layer::UserLayer};
 
 use crate::example;
 
+#[derive(Clone, Debug)]
+pub struct AppState {
+  pub name: String,
+}
+
 pub fn app() -> Router {
   Router::new()
     .merge(example::handler::router())
     .layer(user_layer())
+    .layer(Extension(AppState {
+      name: "test".to_string(),
+    }))
 }
 
 pub fn user_layer<S>() -> UserLayer<S> {

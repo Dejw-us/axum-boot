@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use axum::{
-  Router,
+  Extension, Router,
   body::Body,
   extract::{FromRequestParts, Request},
   http::request::Parts,
@@ -14,6 +14,8 @@ use axum_boot_security::{
   user::role::UserRoles,
 };
 
+use crate::app::{self, AppState};
+
 pub fn router() -> Router {
   Router::new().route("/example", get(get_example))
 }
@@ -21,7 +23,8 @@ pub fn router() -> Router {
 #[function_authorizer]
 async fn check(parts: &Parts) -> bool {
   let roles = UserRoles::from_parts(parts);
-  println!("Roles: {:?}", roles.0);
+  let app_state = parts.extensions.get::<AppState>().unwrap();
+  println!("state: {:?}", app_state);
   roles.has_role("user")
 }
 
