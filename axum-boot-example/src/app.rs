@@ -1,9 +1,12 @@
-use std::{sync::Arc, vec};
+use std::{any, sync::Arc, vec};
 
 use anyhow::Ok;
 use axum::{Extension, Router};
 use axum_boot_core::util::if_else;
-use axum_boot_security::user::{UserService, layer::UserLayer};
+use axum_boot_security::{
+  oauth2::jwks::Jwks,
+  user::{UserService, layer::UserLayer},
+};
 
 use crate::example;
 
@@ -12,13 +15,18 @@ pub struct AppState {
   pub name: String,
 }
 
-pub fn app() -> Router {
-  Router::new()
+pub async fn app() -> anyhow::Result<Router> {
+  // let jwks = Jwks::fetch("http://localhost:8080/realms/test/protocol/openid-connect/certs").await?;
+
+  let app = Router::new()
     .merge(example::handler::router())
     .layer(user_layer())
     .layer(Extension(AppState {
       name: "test".to_string(),
-    }))
+    }));
+  // .layer(Extension(jwks));
+
+  Ok(app)
 }
 
 pub fn user_layer<S>() -> UserLayer<S> {

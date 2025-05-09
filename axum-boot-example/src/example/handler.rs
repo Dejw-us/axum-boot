@@ -10,10 +10,11 @@ use axum::{
 };
 use axum_boot_security::{
   macros::{authenticated, authorize_with, roles},
-  request::extract::BasicAuth,
+  request::extract::authorization::{BasicAuth, BearerToken, JwtClaims},
   response::AuthorizedResponse,
   user::role::UserRoles,
 };
+use serde::{Deserialize, Serialize};
 
 use crate::app::{self, AppState};
 
@@ -23,9 +24,15 @@ pub fn router() -> Router {
   Router::new().route("/example", get(get_example))
 }
 
+#[derive(Clone, Serialize, Deserialize, Debug)]
+struct Payload {
+  exp: u64,
+}
+
 #[authorize_with(check)]
-#[roles("admin", "user")]
-async fn get_example(basic_auth: BasicAuth) -> AuthorizedResponse<impl IntoResponse> {
-  println!("auth: {:?}", basic_auth);
+async fn get_example(
+  JwtClaims(claims): JwtClaims<Payload>,
+) -> AuthorizedResponse<impl IntoResponse> {
+  println!("auth: {:?}", claims);
   Ok("hello")
 }

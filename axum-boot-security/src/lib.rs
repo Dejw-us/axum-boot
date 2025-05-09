@@ -1,4 +1,5 @@
 pub mod handler;
+pub mod oauth2;
 pub mod request;
 pub mod response;
 pub mod user;

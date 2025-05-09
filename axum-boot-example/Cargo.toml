@@ -9,3 +9,4 @@ tokio = { workspace = true }
 anyhow = { workspace = true }
 axum-boot-security = { path = "../axum-boot-security" }
 axum-boot-core = { path = "../axum-boot-core" }
+serde = { version = "1.0.219", features = ["derive"] }
