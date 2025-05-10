@@ -5,7 +5,7 @@ use axum::http::request::Parts;
 use super::extract::UserRolesExtractor;
 
 #[derive(Clone)]
-pub struct UserRoles(pub Vec<String>);
+pub struct UserRoles(pub(crate) Vec<String>);
 
 impl UserRoles {
   pub fn from_parts(parts: &Parts) -> Cow<'_, Self> {

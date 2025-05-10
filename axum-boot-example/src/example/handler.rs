@@ -8,12 +8,16 @@ use axum::{
   response::IntoResponse,
   routing::get,
 };
+use axum_boot_core::{error::Error, request::FromRequestPartsRef, string};
 use axum_boot_security::{
-  macros::{authenticated, authorize_with, roles},
+  authorization::{HandlerAuthorization, HandlerAuthorizer, jwt::Jwt},
+  macros::{authenticated, authorize, authorize_with, roles},
+  oauth2::jwks::Jwks,
   request::extract::authorization::{BasicAuth, BearerToken, JwtClaims},
   response::AuthorizedResponse,
   user::role::UserRoles,
 };
+use jsonwebtoken::{DecodingKey, Validation, decode, decode_header};
 use serde::{Deserialize, Serialize};
 
 use crate::app::{self, AppState};
@@ -29,7 +33,7 @@ struct Payload {
   exp: u64,
 }
 
-#[authorize_with(check)]
+#[authorize(Jwt)]
 async fn get_example(
   JwtClaims(claims): JwtClaims<Payload>,
 ) -> AuthorizedResponse<impl IntoResponse> {

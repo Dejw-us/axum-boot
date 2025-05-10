@@ -7,6 +7,7 @@ use axum_boot_security::{
   oauth2::jwks::Jwks,
   user::{UserService, layer::UserLayer},
 };
+use jsonwebtoken::Validation;
 
 use crate::example;
 
@@ -16,15 +17,17 @@ pub struct AppState {
 }
 
 pub async fn app() -> anyhow::Result<Router> {
-  // let jwks = Jwks::fetch("http://localhost:8080/realms/test/protocol/openid-connect/certs").await?;
-
+  let jwks = Jwks::fetch("http://localhost:8080/realms/test/protocol/openid-connect/certs").await?;
+  let mut validation = Validation::new(jsonwebtoken::Algorithm::RS256);
+  validation.set_audience(&["account"]);
   let app = Router::new()
     .merge(example::handler::router())
     .layer(user_layer())
     .layer(Extension(AppState {
       name: "test".to_string(),
-    }));
-  // .layer(Extension(jwks));
+    }))
+    .layer(Extension(jwks))
+    .layer(Extension(validation));
 
   Ok(app)
 }

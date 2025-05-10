@@ -1,3 +1,4 @@
+pub mod authorization;
 pub mod handler;
 pub mod oauth2;
 pub mod request;

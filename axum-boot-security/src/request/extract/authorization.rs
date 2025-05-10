@@ -2,6 +2,7 @@ use axum::{
   extract::FromRequestParts,
   http::{StatusCode, header::AUTHORIZATION, request::Parts},
 };
+use axum_boot_core::request::FromRequestPartsRef;
 use base64::{Engine, prelude::BASE64_STANDARD};
 use jsonwebtoken::{DecodingKey, Header, Validation, decode, decode_header};
 use serde::de::DeserializeOwned;
@@ -54,6 +55,20 @@ impl BearerToken {
   }
 }
 
+impl FromRequestPartsRef for BearerToken {
+  type Rejection = StatusCode;
+
+  fn from_request_parts_ref(parts_ref: &Parts) -> Result<Self, Self::Rejection> {
+    parts_ref
+      .headers
+      .get(AUTHORIZATION)
+      .and_then(|h| h.to_str().ok())
+      .and_then(|h| h.strip_prefix("Bearer "))
+      .and_then(|token| Some(Self::new(token)))
+      .ok_or(StatusCode::UNAUTHORIZED)
+  }
+}
+
 impl<S> FromRequestParts<S> for BearerToken {
   type Rejection = StatusCode;
 
@@ -61,15 +76,7 @@ impl<S> FromRequestParts<S> for BearerToken {
     parts: &mut Parts,
     _state: &S,
   ) -> impl Future<Output = Result<Self, Self::Rejection>> + Send {
-    async move {
-      parts
-        .headers
-        .get(AUTHORIZATION)
-        .and_then(|h| h.to_str().ok())
-        .and_then(|h| h.strip_prefix("Bearer "))
-        .and_then(|token| Some(Self::new(token)))
-        .ok_or(StatusCode::UNAUTHORIZED)
-    }
+    async move { Self::from_request_parts_ref(&parts) }
   }
 }
 
