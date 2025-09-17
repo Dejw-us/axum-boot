@@ -16,5 +16,4 @@ axum = "0.8.4"
 [dependencies]
 tokio = { version = "1.47.1", features = ["full"] }
 axum.workspace = true
-axum-boot-core = { path = "axum-boot-core", version = "0.1.0" }
-axum-boot-service-derive = { path = "axum-boot-service-derive", version = "0.1.0" }
+axum-boot-core = { version = "0.1.0" }

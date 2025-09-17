@@ -68,14 +68,22 @@ name = "axum-boot"
 version = "0.1.0"
 dependencies = [
  "axum",
- "axum-boot-core",
- "axum-boot-service-derive",
+ "axum-boot-core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "tokio",
 ]
 
 [[package]]
 name = "axum-boot-core"
 version = "0.1.0"
+dependencies = [
+ "axum",
+]
+
+[[package]]
+name = "axum-boot-core"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f8e96307e831c64f2a9e7e84e5a27aa5c5c8c8e909e55df865581dd0db3dce9d"
 dependencies = [
  "axum",
 ]
