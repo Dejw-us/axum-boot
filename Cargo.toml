@@ -2,10 +2,19 @@
 name = "axum-boot"
 version = "0.1.0"
 edition = "2024"
+authors = ["Dejw-us"]
+description = "Create axum apps fast"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/Dejw-us/axum-boot"
 
 [workspace]
+members = ["axum-boot-core", "axum-boot-service-derive"]
 
 [workspace.dependencies]
 axum = "0.8.4"
 
 [dependencies]
+tokio = { version = "1.47.1", features = ["full"] }
+axum.workspace = true
+axum-boot-core = { path = "axum-boot-core", version = "0.1.0" }
+axum-boot-service-derive = { path = "axum-boot-service-derive", version = "0.1.0" }
