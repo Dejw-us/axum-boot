@@ -1,0 +1,11 @@
+[package]
+name = "axum-boot"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[workspace.dependencies]
+axum = "0.8.4"
+
+[dependencies]
