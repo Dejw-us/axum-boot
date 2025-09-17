@@ -2,6 +2,10 @@
 name = "axum-boot-core"
 version = "0.1.0"
 edition = "2024"
+authors = ["Dejw-us"]
+description = "Axum boot core"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/Dejw-us/axum-boot/tree/main/axum-boot-core"
 
 [dependencies]
 axum.workspace = true
