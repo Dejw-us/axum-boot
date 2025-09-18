@@ -9,3 +9,4 @@ repository = "https://github.com/Dejw-us/axum-boot/tree/main/axum-boot-core"
 
 [dependencies]
 axum.workspace = true
+thiserror.workspace = true

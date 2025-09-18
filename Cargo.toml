@@ -8,10 +8,11 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/Dejw-us/axum-boot"
 
 [workspace]
-members = ["axum-boot-core", "axum-boot-service-derive"]
+members = ["axum-boot-core"]
 
 [workspace.dependencies]
 axum = "0.8.4"
+thiserror = "2.0.16"
 
 [dependencies]
 tokio = { version = "1.47.1", features = ["full"] }
